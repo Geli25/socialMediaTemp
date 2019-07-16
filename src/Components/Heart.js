@@ -1,23 +1,35 @@
-import React from 'react';
+import React,{Component} from 'react';
 import * as actionCreators from '../store/actions/appData';
 
 import { connect } from 'react-redux';
 
-const Heart=(props)=>(
-    props.currentUser.liked_designs.includes(props.id) ? 
-    <img 
-        src="https://s3.amazonaws.com/temp-for-interview/design_images/misc/like-filled.png"
-        onClick={()=>{
-            props.removeCurrentLikes(props.id);
-            props.updateLikes("-", props.index);
-        }}/> : 
-    <img 
-        src="https://s3.amazonaws.com/temp-for-interview/design_images/misc/like-empty.png"
-        onClick={()=>{
-            props.addCurrentLikes(props.id);
-            props.updateLikes("+", props.index)
-        }} />
-)
+class Heart extends Component{
+    shouldComponentUpdate(nextProps){
+        let liked = this.props.currentUser.liked_designs.includes(this.props.id);;
+        let nextLiked=nextProps.currentUser.liked_designs.includes(this.props.id);
+        console.log(liked!==nextLiked);
+        return liked!==nextLiked;
+    }
+    
+    render(){
+        return (
+            this.props.currentUser.liked_designs.includes(this.props.id) ?
+            <img
+                src="https://s3.amazonaws.com/temp-for-interview/design_images/misc/like-filled.png"
+                onClick={() => {
+                    this.props.removeCurrentLikes(this.props.id);
+                    this.props.updateLikes("-", this.props.index);
+                }} /> :
+            <img
+                src="https://s3.amazonaws.com/temp-for-interview/design_images/misc/like-empty.png"
+                onClick={() => {
+                    this.props.addCurrentLikes(this.props.id);
+                    this.props.updateLikes("+", this.props.index)
+                }} />
+        )
+    
+    }
+}
 
 const mapStatetoProps = reduxState => ({
     currentUser: reduxState.appData.currentUser
