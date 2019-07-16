@@ -7,7 +7,6 @@ class Heart extends Component{
     shouldComponentUpdate(nextProps){
         let liked = this.props.currentUser.liked_designs.includes(this.props.id);;
         let nextLiked=nextProps.currentUser.liked_designs.includes(this.props.id);
-        console.log(liked!==nextLiked);
         return liked!==nextLiked;
     }
     
